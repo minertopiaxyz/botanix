@@ -10,6 +10,7 @@ const Pool = require('./Pool');
 const Vault = require('./Vault');
 
 const config3636 = require('./json/config3636.json');
+const config7701 = require('./json/config7701.json');
 
 // dont include outside file. ex: Lib
 
@@ -54,6 +55,8 @@ module.exports = class Dapp {
         gasPrice: ethers.utils.parseUnits('0.001', 'gwei')
       }
       this.config = config3636;
+    } else if (chainId === 7701) {
+      this.config = config7701;
     }
   }
 
