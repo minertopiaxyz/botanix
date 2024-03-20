@@ -18,6 +18,7 @@ const Wallet = () => {
   const connected = dappState && dappState.userAddress;
   const dapp = dappState.dapp;
   const userData = dappState.userData;
+  const uiData = dappState.uiData;
 
   let userETH = 0;
   let userToken = 0;
@@ -50,6 +51,7 @@ const Wallet = () => {
 
   return (
     <WalletUI
+      uiData={uiData}
       data={{ userETH, userToken, userAddress }}
       // walletConnected={walletConnected}
       connectStatus={connectStatus}
