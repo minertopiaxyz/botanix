@@ -21,14 +21,18 @@ const Wallet = () => {
 
   let userETH = 0;
   let userToken = 0;
-  let walletConnected = false;
+  // let walletConnected = false;
   let userAddress = '';
+  let connectStatus = 'busy';
 
   if (connected) {
     userETH = dapp.wei2eth(userData.userETH);
     userToken = dapp.wei2eth(userData.userToken);
     userAddress = userData.userAddress;
-    if (!(dapp.isReadOnly())) walletConnected = true;
+    if (dapp.isReadOnly())
+      connectStatus = 'disconnected';
+    else connectStatus = 'connected';
+    // if (!(dapp.isReadOnly())) walletConnected = true;
   }
 
   const connectWallet = async () => {
@@ -47,7 +51,8 @@ const Wallet = () => {
   return (
     <WalletUI
       data={{ userETH, userToken, userAddress }}
-      walletConnected={walletConnected}
+      // walletConnected={walletConnected}
+      connectStatus={connectStatus}
       onConnectWallet={() => connectWallet()}
     />
   )

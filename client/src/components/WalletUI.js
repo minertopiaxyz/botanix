@@ -6,7 +6,7 @@ const client = require('../client.json');
 const { projectName, ethSymbol, tokenSymbol } = client;
 const { clearStorageValue } = Lib;
 
-const WalletUI = ({ onConnectWallet, walletConnected, data }) => {
+const WalletUI = ({ onConnectWallet, connectStatus, data }) => {
   const headerTitle = projectName;
   const num1 = data.userETH;
   const num2 = Lib.simpleNum(data.userToken);
@@ -18,7 +18,8 @@ const WalletUI = ({ onConnectWallet, walletConnected, data }) => {
     Lib.openUrl(url);
   }
 
-  let msg = 'Connected';
+  const spinner = <div className="border-base-300 h-8 w-8 animate-spin rounded-full border-4 border-t-black" />;
+  let msg = spinner;
 
   if (data && data.userAddress && data.userAddress.length > 8) {
     const str = data.userAddress;
@@ -26,6 +27,13 @@ const WalletUI = ({ onConnectWallet, walletConnected, data }) => {
     const first4 = str.slice(0, 7);
     msg = first4 + '..' + last4;
   }
+
+  let btn = <button className="flex-1 btn btn-outline" >{spinner}</button>;
+  if (connectStatus === 'connected')
+    btn = <button className="flex-1 btn btn-outline btn-success">{msg}</button>
+  else if (connectStatus === 'disconnected')
+    btn = <button className="flex-1 btn btn-primary" onClick={() => onConnectWallet()}>Connect</button>;
+
 
   return (
     <div className="flex gap-2 mb-2 flex-col-reverse md:flex-row">
@@ -35,11 +43,7 @@ const WalletUI = ({ onConnectWallet, walletConnected, data }) => {
       </div>
       <div className="flex gap-2">
         <button className="btn btn-outline" onClick={() => goHome()}><FaHome size={24} /></button>
-        {walletConnected ? (
-          <button className="flex-1 btn btn-outline btn-success">{msg}</button>
-        ) : (
-          <button className="flex-1 btn btn-primary" onClick={() => onConnectWallet()}>Connect Wallet</button>
-        )}
+        {btn}
       </div>
     </div>
   )
